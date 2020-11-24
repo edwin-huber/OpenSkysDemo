@@ -27,7 +27,9 @@ namespace OpenSkyDemo
             // if using State[]
             // Cannot create and populate list type MartinJsonParser.State. Path 'states[0]', line 1, position 30.
 
-            // Inner type seems to be Newtonsoft.Json.Linq.JArray
+            // the solution is to use an object Array on the Response API object, 
+            // and then use your own converter.
+            // Inner type is Newtonsoft.Json.Linq.JArray
             State myState = State.ConvertJArray((JArray)result.States[1]);
 
             Console.WriteLine("Accessing Array entry 1 as type State, callsign is :");
