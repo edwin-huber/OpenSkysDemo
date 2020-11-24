@@ -14,12 +14,12 @@ namespace OpenSkyDemo
         {
             Console.WriteLine("Fetching data from OpenSky API");
             // ### uncomment to send request to openSky api service
-            // var request = (HttpWebRequest)WebRequest.Create(endpoint);
-            // request.Method = "GET";
-            // var result = JsonConvert.DeserializeObject<StatesApiResponse>(MakeRequest(request));
+            var request = (HttpWebRequest)WebRequest.Create(endpoint);
+            request.Method = "GET";
+            var result = JsonConvert.DeserializeObject<StatesApiResponse>(MakeRequest(request));
 
             // this result is using a trimmed response from the service for speed
-            var result = JsonConvert.DeserializeObject<StatesApiResponse>(MockResponse.ShortTrimmedResponse);
+            // var result = JsonConvert.DeserializeObject<StatesApiResponse>(MockResponse.ShortTrimmedResponse);
 
             Console.WriteLine(result.States[0]);
             // if using Object[] on api response oobject, the error is:
@@ -30,10 +30,12 @@ namespace OpenSkyDemo
             // the solution is to use an object Array on the Response API object, 
             // and then use your own converter.
             // Inner type is Newtonsoft.Json.Linq.JArray
-            State myState = State.ConvertJArray((JArray)result.States[1]);
-
-            Console.WriteLine("Accessing Array entry 1 as type State, callsign is :");
-            Console.WriteLine(myState.callsign);
+            foreach (var state in result.States)
+            {
+                State myState = State.ConvertJArray((JArray)state);
+                Console.WriteLine("Accessing Array entry as type State, callsign is :");
+                Console.WriteLine(myState.callsign);
+            }
         }
 
         // butchered this
